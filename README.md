@@ -8,6 +8,7 @@
 
 * download python3
 
+### run
 ```
 python3 script.py
 ```
