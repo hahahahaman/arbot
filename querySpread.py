@@ -39,13 +39,28 @@ def displayPoloniexBittrexSpead(base, counter):
 
         bitHiBid = float(bitData['Bid'])
         bitLowAsk = float(bitData['Ask'])
+        bpSpread = spread(bitLowAsk, poloHiBid) * 100
+        pbSpread = spread(poloLowAsk, bitHiBid) * 100
+
+        if(abs(bpSpread) >= 5 or abs(pbSpread) >= 5):
+                with open("query.log", 'a') as f:
+                        f.write(str(datetime.now()) + '\n')
+                        f.write(counter, '-', base)
+                        f.write("Poloniex Bid:", poloHiBid)
+                        f.write("Poloniex Ask:", poloLowAsk)
+                        f.write("Bittrex Bid:", bitHiBid)
+                        f.write("Bittrex Ask:", bitLowAsk, "\n")
+                        f.write("Bittrex-Poloniex Spread:", bpSpread, "%")
+                        f.write("Poloniex-Bittrex Spread:", pbSpread, "%")
+
         print(counter, '-', base)
         print("Poloniex Bid:", poloHiBid)
         print("Poloniex Ask:", poloLowAsk)
         print("Bittrex Bid:", bitHiBid)
         print("Bittrex Ask:", bitLowAsk, "\n")
-        print("Bittrex-Poloniex Spread:", spread(bitLowAsk, poloHiBid) * 100, "%")
-        print("Poloniex-Bittrex Spread:", spread(poloLowAsk, bitHiBid) * 100, "%")
+        print("Bittrex-Poloniex Spread:", bpSpread, "%")
+        print("Poloniex-Bittrex Spread:", pbSpread, "%")
+
         # print("Poloniex:")
         # print(poloData)
         # print("")
@@ -68,3 +83,4 @@ s.enter(waitTime,1, loop, (s,))
 s.run()
 
 # bittrex poloniex ETH spread
+
